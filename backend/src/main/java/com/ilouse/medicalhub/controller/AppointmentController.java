@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/appointements")
+@RequestMapping("/appointments")
 public class AppointmentController {
 
     @Autowired
@@ -20,8 +20,8 @@ public class AppointmentController {
     public List<Appointement> findAll(){
         return appointmentService.findAll();
     }
-    @GetMapping("/id")
-    public Appointement findById(@RequestParam Long id){
+    @GetMapping("/{id}")
+    public Appointement findById(@PathVariable Long id){
         return appointmentService.findById(id);
     }
 
@@ -30,8 +30,8 @@ public class AppointmentController {
         return  appointmentService.saveAll(appointements);
     }
 
-    @DeleteMapping("/id")
-    public void delete(@RequestParam Long id){
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
         appointmentService.deleteById(id);
     }
 

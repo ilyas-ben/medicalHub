@@ -20,8 +20,9 @@ public class PatientController {
     public List<Patient> findAll(){
         return patientService.findAll();
     }
-    @GetMapping("/id")
-    public Patient findById(@RequestParam Long id){
+
+    @GetMapping("/{id}")
+    public Patient findById(@PathVariable Long id){
         return patientService.findById(id);
     }
 
@@ -30,8 +31,8 @@ public class PatientController {
         return  patientService.saveAll(patients);
     }
 
-    @DeleteMapping("/id")
-    public void delete(@RequestParam Long id){
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id){
         patientService.deleteById(id);
     }
 

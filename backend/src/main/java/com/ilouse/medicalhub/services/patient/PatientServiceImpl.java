@@ -16,12 +16,12 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient findById(Long id) {
-        return null;
+        return patientRepo.findById(id).get();
     }
 
     @Override
     public void deleteById(Long id) {
-
+        patientRepo.deleteById(id);
     }
 
     @Override
