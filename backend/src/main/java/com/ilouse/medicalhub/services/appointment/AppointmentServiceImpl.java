@@ -1,7 +1,7 @@
 package com.ilouse.medicalhub.services.appointment;
 
 
-import com.ilouse.medicalhub.model.Appointement;
+import com.ilouse.medicalhub.model.Appointment;
 import com.ilouse.medicalhub.repo.AppointmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 
     @Override
-    public List<Appointement> findAll() {
+    public List<Appointment> findAll() {
         return appointmentRepo.findAll();
     }
 
     @Override
-    public Appointement findById(Long id) {
+    public Appointment findById(Long id) {
         return appointmentRepo.findById(id).get();
     }
 
@@ -32,7 +32,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<Appointement> saveAll(List<Appointement> appointements) {
-        return appointmentRepo.saveAll(appointements);
+    public List<Appointment> saveAll(List<Appointment> appointments) {
+        return appointmentRepo.saveAll(appointments);
     }
 }

@@ -3,8 +3,10 @@ package com.ilouse.medicalhub.model;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+
 @Entity
-public class Appointement {
+public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
@@ -14,9 +16,14 @@ public class Appointement {
     Patient patient;
 
     @Column
+    LocalDateTime dateTime;
+
+    @Column
     Boolean status;
 
-    public Appointement() {
+
+
+    public Appointment() {
     }
 
     public Long getId() {
@@ -43,18 +50,29 @@ public class Appointement {
         this.status = status;
     }
 
-    public Appointement(Long id, Patient patient, Boolean status) {
-        this.id = id;
-        this.patient = patient;
-        this.status = status;
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
     }
 
     @Override
     public String toString() {
-        return "Appointement{" +
-                "Id=" + id +
+        return "Appointment{" +
+                "id=" + id +
                 ", patient=" + patient +
+                ", dateTime=" + dateTime +
                 ", status=" + status +
                 '}';
     }
+
+    public Appointment(Long id, Patient patient, LocalDateTime dateTime, Boolean status) {
+        this.id = id;
+        this.patient = patient;
+        this.dateTime = dateTime;
+        this.status = status;
+    }
+
 }

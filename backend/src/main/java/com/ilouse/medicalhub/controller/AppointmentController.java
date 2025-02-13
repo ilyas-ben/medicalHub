@@ -1,9 +1,8 @@
 package com.ilouse.medicalhub.controller;
 
-import com.ilouse.medicalhub.model.Appointement;
+import com.ilouse.medicalhub.model.Appointment;
 import com.ilouse.medicalhub.services.appointment.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +16,17 @@ public class AppointmentController {
 
 
     @GetMapping
-    public List<Appointement> findAll(){
+    public List<Appointment> findAll(){
         return appointmentService.findAll();
     }
     @GetMapping("/{id}")
-    public Appointement findById(@PathVariable Long id){
+    public Appointment findById(@PathVariable Long id){
         return appointmentService.findById(id);
     }
 
     @PostMapping
-    public List<Appointement> save(@RequestBody List<Appointement> appointements){
-        return  appointmentService.saveAll(appointements);
+    public List<Appointment> save(@RequestBody List<Appointment> appointments){
+        return  appointmentService.saveAll(appointments);
     }
 
     @DeleteMapping("/{id}")
