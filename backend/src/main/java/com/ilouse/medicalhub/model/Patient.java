@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Data
 public class Patient {
 
     @Id
@@ -22,4 +21,57 @@ public class Patient {
 
     @Column
     String socialSecurityNumber;
+
+
+    public Patient() {
+    }
+
+    public Patient(Long id, String name, Integer patientNumber, String socialSecurityNumber) {
+        this.id = id;
+        this.name = name;
+        this.patientNumber = patientNumber;
+        this.socialSecurityNumber = socialSecurityNumber;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getPatientNumber() {
+        return patientNumber;
+    }
+
+    public void setPatientNumber(Integer patientNumber) {
+        this.patientNumber = patientNumber;
+    }
+
+    public String getSocialSecurityNumber() {
+        return socialSecurityNumber;
+    }
+
+    public void setSocialSecurityNumber(String socialSecurityNumber) {
+        this.socialSecurityNumber = socialSecurityNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", patientNumber=" + patientNumber +
+                ", socialSecurityNumber='" + socialSecurityNumber + '\'' +
+                '}';
+    }
 }

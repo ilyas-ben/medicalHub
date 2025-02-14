@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Patient } from '../../model/patient.type';
-import { PatientServiceService } from '../../services/patient-service.service';
 import { CommonModule } from '@angular/common';
+import { PatientService } from '../../services/patient.service';
 
 @Component({
   selector: 'app-patient',
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PatientComponent implements OnInit {
   patients = signal<Array<Patient>>([]);
-  patientService = inject(PatientServiceService);
+  patientService = inject(PatientService);
 
   
 
@@ -20,6 +20,7 @@ export class PatientComponent implements OnInit {
       .getPatients()
       .subscribe((items)=>{
         this.patients.set(items);
+        console.log(items);
       })
   }
 

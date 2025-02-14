@@ -1,16 +1,16 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Patient } from '../model/patient.type';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PatientServiceService {
+export class PatientService {
 
-  private url =  "http://localhost:8081/patients"
+  private url =  "http://localhost:8080/patients"
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   addPatient(patients: Patient[]): Observable<Patient[]> {
     return this.http.post<Patient[]>(this.url, patients);
