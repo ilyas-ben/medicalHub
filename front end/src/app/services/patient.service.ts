@@ -7,17 +7,21 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PatientService {
+  
+  private url = "http://localhost:8080/patients"
 
-  private url =  "http://localhost:8080/patients"
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
+  getPatients(): Observable<Patient[]> {
+    return this.http.get<Patient[]>(this.url);
+  }
 
   addPatient(patients: Patient[]): Observable<Patient[]> {
     return this.http.post<Patient[]>(this.url, patients);
   }
 
-  getPatients(): Observable<Patient[]> {
-    return this.http.get<Patient[]>(this.url);
+  deletePatient(idPatientToDelete: number) {
+    this.http.delete(this.url + '/' + idPatientToDelete).subscribe();
   }
 
 }

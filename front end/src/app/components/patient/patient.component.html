@@ -1,30 +1,62 @@
 <div class="patient-container">
-    <h1 class="title">Patients</h1>
-    <div class="table-container">
-      <button class="btn btn-primary add-button">Add Patient</button>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Patient Number</th>
-            <th>Social Security Number</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let patient of patients()">
-            <td>{{ patient.id }}</td>
-            <td>{{ patient.name }}</td>
-            <td>{{ patient.patientNumber }}</td>
-            <td>{{ patient.socialSecurityNumber }}</td>
-            <td>
-              <button class="btn btn-warning btn-sm">Edit</button>
-              <button class="btn btn-danger btn-sm">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <h1 class="title">Patients</h1>
+  <div class="table-container">
+    <button class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#patientModal">Add
+      Patient</button>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Patient Number</th>
+          <th>Social Security Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let patient of patients()">
+          <td>{{ patient.id }}</td>
+          <td>{{ patient.name }}</td>
+          <td>{{ patient.patientNumber }}</td>
+          <td>{{ patient.socialSecurityNumber }}</td>
+          <td>
+            <button class="btn btn-warning btn-sm">Edit</button>
+            <button class="btn btn-danger btn-sm" (click)="delete(patient.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal for adding a new patient -->
+<div class="modal fade" id="patientModal" tabindex="-1" role="dialog" aria-labelledby="patientModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="patientModalLabel">Add New Patient</h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="newPatientForm">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" formControlName="name">
+          </div>
+          <div class="form-group">
+            <label for="patientNumber">Patient Number</label>
+            <input type="text" class="form-control" id="patientNumber" formControlName="patientNumber">
+          </div>
+          <div class="form-group">
+            <label for="socialSecurityNumber">Social Security Number</label>
+            <input type="text" class="form-control" id="socialSecurityNumber" formControlName="socialSecurityNumber">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="save()" data-bs-dismiss="modal">Save Patient</button>
+      </div>
     </div>
   </div>
-  
+</div>
