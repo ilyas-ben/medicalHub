@@ -1,6 +1,7 @@
 package com.ilouse.medicalhub.model;
 
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.Getter;
@@ -17,20 +18,28 @@ public class Patient {
     String name;
 
     @Column
-    Integer patientNumber;
+    String patientNumber;
 
     @Column
     String socialSecurityNumber;
+
+    @Column
+    String identityCardNumber;
+
+    @Column
+    Integer phoneNumber;
 
 
     public Patient() {
     }
 
-    public Patient(Long id, String name, Integer patientNumber, String socialSecurityNumber) {
+    public Patient(Long id, String name, String patientNumber, String socialSecurityNumber, String identityCardNumber, Integer phoneNumber) {
         this.id = id;
         this.name = name;
         this.patientNumber = patientNumber;
         this.socialSecurityNumber = socialSecurityNumber;
+        this.identityCardNumber = identityCardNumber;
+        this.phoneNumber = phoneNumber;
     }
 
     public Long getId() {
@@ -49,11 +58,11 @@ public class Patient {
         this.name = name;
     }
 
-    public Integer getPatientNumber() {
+    public String getPatientNumber() {
         return patientNumber;
     }
 
-    public void setPatientNumber(Integer patientNumber) {
+    public void setPatientNumber(String patientNumber) {
         this.patientNumber = patientNumber;
     }
 
@@ -65,13 +74,31 @@ public class Patient {
         this.socialSecurityNumber = socialSecurityNumber;
     }
 
+    public String getIdentityCardNumber() {
+        return identityCardNumber;
+    }
+
+    public Integer getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(Integer phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setIdentityCardNumber(String identityCardNumber) {
+        this.identityCardNumber = identityCardNumber;
+    }
+
     @Override
     public String toString() {
         return "Patient{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", patientNumber=" + patientNumber +
+                ", patientNumber='" + patientNumber + '\'' +
                 ", socialSecurityNumber='" + socialSecurityNumber + '\'' +
+                ", identityCardNumber='" + identityCardNumber + '\'' +
+                ", phoneNumber=" + phoneNumber +
                 '}';
     }
 }

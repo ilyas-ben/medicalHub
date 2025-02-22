@@ -1,7 +1,7 @@
 <div class="patient-container">
   <h1 class="title">Patients</h1>
   <div class="table-container">
-    <button class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#patientModal">Add
+    <button class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#patientModal">New
       Patient</button>
     <table class="table table-striped">
       <thead>
@@ -10,6 +10,8 @@
           <th>Name</th>
           <th>Patient Number</th>
           <th>Social Security Number</th>
+          <th>Identity Card Number</th>
+          <th>Phone Number</th>
           <th>Actions</th>
         </tr>
       </thead>
@@ -19,6 +21,8 @@
           <td>{{ patient.name }}</td>
           <td>{{ patient.patientNumber }}</td>
           <td>{{ patient.socialSecurityNumber }}</td>
+          <td>{{ patient.identityCardNumber }}</td>
+          <td>{{ patient.phoneNumber }}</td>
           <td>
             <button class="btn btn-warning btn-sm">Edit</button>
             <button class="btn btn-danger btn-sm" (click)="delete(patient.id)">Delete</button>
@@ -51,11 +55,18 @@
             <label for="socialSecurityNumber">Social Security Number</label>
             <input type="text" class="form-control" id="socialSecurityNumber" formControlName="socialSecurityNumber">
           </div>
+          <div class="form-group">
+            <label for="identityCardNumber">Identity Card Number</label>
+            <input type="text" class="form-control" id="identityCardNumber" formControlName="identityCardNumber">
+          </div>
+          <div class="form-group">
+            <label for="phoneNumber">Phone Number</label>
+            <input type="number" class="form-control" id="phoneNumber" formControlName="phoneNumber">
+          </div>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="save()" data-bs-dismiss="modal">Save Patient</button>
+        <button type="button" class="btn btn-primary" (click)="save()">Save Patient</button>
       </div>
     </div>
   </div>

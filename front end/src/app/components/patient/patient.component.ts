@@ -3,6 +3,7 @@ import { Patient } from '../../model/patient.type';
 import { CommonModule } from '@angular/common';
 import { PatientService } from '../../services/patient.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-patient',
@@ -22,7 +23,9 @@ export class PatientComponent implements OnInit {
     this.newPatientForm = this.fb.group({
       name: ['', Validators.required],
       patientNumber: ['', Validators.required],
-      socialSecurityNumber: ['', Validators.required]
+      socialSecurityNumber: ['', Validators.required],
+      identityCardNumber: ['', Validators.required],
+      phoneNumber: ['', Validators.required]
     });
   }
 
@@ -44,7 +47,17 @@ export class PatientComponent implements OnInit {
       .addPatient(newPatient)
       .subscribe(() => {
         this.setPatients();
+        this.newPatientForm.reset();
+        const modalElement = document.getElementById('patientModal');
+        if (modalElement) {
+          const modalInstance = bootstrap.Modal.getInstance(modalElement);
+          if (modalInstance) {
+            modalInstance.hide();
+          }
+        }
       });
+      
+
   }
 
   delete(idPatientToDelete: number) {
