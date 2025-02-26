@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Patient } from '../../model/patient.type';
 import { CommonModule } from '@angular/common';
-import { PatientService } from '../../services/patient.service';
+import { PatientService } from '../../services/patients/patient.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 declare var bootstrap: any;
 
@@ -56,7 +56,7 @@ export class PatientComponent implements OnInit {
           }
         }
       });
-      
+
 
   }
 
