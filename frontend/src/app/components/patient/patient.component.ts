@@ -44,10 +44,7 @@ export class PatientComponent implements OnInit {
   }
 
   save() {
-    const newPatient: Patient[] = [];
-    newPatient.push(this.newPatientForm.value);
-
-    this.patientService.save(newPatient).subscribe(() => {
+    this.patientService.save([this.newPatientForm.value]).subscribe(() => {
       this.setPatients();
       this.newPatientForm.reset();
 

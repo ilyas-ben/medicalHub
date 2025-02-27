@@ -48,12 +48,10 @@ export class AppointmentsComponent implements OnInit {
     });
   }
   save() {
+    // fetching value from the form
     const newAppointment: Appointment = this.newAppointmentForm.value;
-
     newAppointment.patient = { id: this.newAppointmentForm.value.patientId } as Patient; 
-
-    /* patient: , */
-
+    // save to backend
     this.appointmentsService.save([{...this.newAppointmentForm.value}]).subscribe(() => {
       this.setAppointments();
       this.newAppointmentForm.reset();
