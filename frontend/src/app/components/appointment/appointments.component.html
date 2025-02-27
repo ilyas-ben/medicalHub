@@ -1,5 +1,7 @@
 <div class="container mt-5">
     <h2 class="mb-4">Appointments</h2>
+    <button class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#AppointmentModal">New
+        Appointment</button>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -27,4 +29,41 @@
             </tr>
         </tbody>
     </table>
+</div>
+
+<!-- Modal for adding a new appointment -->
+<div class="modal fade" id="AppointmentModal" tabindex="-1" role="dialog" aria-labelledby="AppointmentModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AppointmentModalLabel">Add New Appointment</h5>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="newAppointmentForm">
+                    <div class="form-group">
+                        <label for="patient">Patient</label>
+                        <select class="form-control" id="patient" formControlName="patientId">
+                            <option value="" disabled selected>Select Patient</option>
+                            <option *ngFor="let patient of patients()" [value]="patient.id">{{ patient.name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dateTime">Date & Time</label>
+                        <input type="datetime-local" class="form-control" id="dateTime" formControlName="dateTime">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" formControlName="status">
+                            <option [value]="true">Scheduled</option>
+                            <option [value]="false">Canceled</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" (click)="save()">Save Appointment</button>
+            </div>
+        </div>
+    </div>
 </div>
