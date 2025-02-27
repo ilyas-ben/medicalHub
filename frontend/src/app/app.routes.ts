@@ -19,7 +19,7 @@ export const routes: Routes = [
     {
         path: 'appointments',
         loadComponent: async () => {
-            const vDeRetour = await import('./components/appointments/appointments.component');
+            const vDeRetour = await import('./components/appointment/appointments.component');
             return vDeRetour.AppointmentsComponent;
         }
     }

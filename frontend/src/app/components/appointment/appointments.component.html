@@ -11,7 +11,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let appointment of appointments">
+            <tr *ngFor="let appointment of appointments()">
                 <td>{{ appointment.id }}</td>
                 <td>{{ appointment.patient.name }}</td>
                 <td>{{ appointment.dateTime | date: 'short' }}</td>
@@ -22,7 +22,7 @@
                     </span>
                 </td>
                 <td>
-                    <button class="btn btn-danger btn-sm" (click)="deleteAppointment(appointment.id)">Delete</button>
+                    <button class="btn btn-danger btn-sm" (click)="deleteById(appointment.id)">Delete</button>
                 </td>
             </tr>
         </tbody>

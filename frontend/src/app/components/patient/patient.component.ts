@@ -1,19 +1,23 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Patient } from '../../model/patient.type';
 import { CommonModule } from '@angular/common';
-import { PatientService } from '../../services/patients/patient.service';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-declare var bootstrap: any;
+import { PatientService } from '../../services/patient/patient.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+
 
 @Component({
   selector: 'app-patient',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './patient.component.html',
-  styleUrl: './patient.component.scss'
+  styleUrl: './patient.component.scss',
 })
 export class PatientComponent implements OnInit {
-
   patients = signal<Array<Patient>>([]);
   patientService = inject(PatientService);
 
@@ -25,7 +29,7 @@ export class PatientComponent implements OnInit {
       patientNumber: ['', Validators.required],
       socialSecurityNumber: ['', Validators.required],
       identityCardNumber: ['', Validators.required],
-      phoneNumber: ['', Validators.required]
+      phoneNumber: ['', Validators.required],
     });
   }
 
@@ -34,35 +38,33 @@ export class PatientComponent implements OnInit {
   }
 
   setPatients(): void {
-    this.patientService.getPatients().subscribe((items) => {
+    this.patientService.findAll().subscribe((items: Patient[]) => {
       this.patients.set(items);
-      console.log(items);
     });
   }
 
   save() {
     const newPatient: Patient[] = [];
     newPatient.push(this.newPatientForm.value);
-    this.patientService
-      .addPatient(newPatient)
-      .subscribe(() => {
-        this.setPatients();
-        this.newPatientForm.reset();
-        const modalElement = document.getElementById('patientModal');
-        if (modalElement) {
-          const modalInstance = bootstrap.Modal.getInstance(modalElement);
-          if (modalInstance) {
-            modalInstance.hide();
-          }
+
+    this.patientService.save(newPatient).subscribe(() => {
+      this.setPatients();
+      this.newPatientForm.reset();
+
+      // Close the modal
+      const modalElement = document.getElementById('patientModal');
+      if (modalElement) {
+        const modalInstance = bootstrap.Modal.getInstance(modalElement);
+        if (modalInstance) {
+          modalInstance.hide();
         }
-      });
-
-
+      }
+    });
   }
 
-  delete(idPatientToDelete: number) {
-    this.patientService.deletePatient(idPatientToDelete);
-    this.setPatients();
+  deleteById(idPatientToDelete: number) {
+    this.patientService.deleteByID(idPatientToDelete).subscribe(() => {
+      this.setPatients();
+    });
   }
-
 }
