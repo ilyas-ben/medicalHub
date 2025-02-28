@@ -10,4 +10,6 @@ public interface AppointmentService {
     Appointment findById(Long id);
     void deleteById(Long id);
     List<Appointment> saveAll(List<Appointment> appointments);
+
+    public List<Appointment> findTodaysAppointments();
 }

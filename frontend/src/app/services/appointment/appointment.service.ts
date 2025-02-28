@@ -27,4 +27,8 @@ export class AppointmentsService {
   deleteByID(id: number): Observable<void> {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
+
+  findTodaysAppointments(): Observable<Appointment[]> {
+    return this.http.get<Appointment[]>(`${this.url}/todaysAppointment`);
+  }
 }

@@ -19,6 +19,7 @@ public class AppointmentController {
     public List<Appointment> findAll(){
         return appointmentService.findAll();
     }
+
     @GetMapping("/{id}")
     public Appointment findById(@PathVariable Long id){
         return appointmentService.findById(id);
@@ -34,4 +35,10 @@ public class AppointmentController {
         appointmentService.deleteById(id);
     }
 
+    @GetMapping("/todaysAppointment")
+    public List<Appointment> findTodaysAppointments(){
+        return appointmentService.findTodaysAppointments();
+    }
+
+    // also if there s a conflict handler
 }
