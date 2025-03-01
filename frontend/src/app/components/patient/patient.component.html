@@ -1,18 +1,83 @@
 <div class="patient-container">
   <h1 class="title">Patients</h1>
   <div class="table-container">
+    <!-- <div *ngIf="!patients().length">Loading patients...</div> -->
+
     <button class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#patientModal">New
       Patient</button>
+
+    <!-- <p-table #dt2 [value]="patients()" dataKey="id" [rows]="10" [paginator]="true" [rowsPerPageOptions]="[5, 10, 25]"
+      [globalFilterFields]="['name', 'patientNumber', 'socialSecurityNumber', 'identityCardNumber', 'phoneNumber']"
+      [tableStyle]="{ 'min-width': '100rem' }">
+
+      <ng-template #header>
+        <tr>
+          <th>
+            ID
+            <p-columnFilter type="text" field="id" placeholder="Search by ID" ariaLabel="Filter ID"></p-columnFilter>
+          </th>
+          <th>
+            Name
+            <p-columnFilter type="text" field="name" placeholder="Search by name"
+              ariaLabel="Filter Name"></p-columnFilter>
+          </th>
+          <th>
+            Patient Number
+            <p-columnFilter type="text" field="patientNumber" placeholder="Search by patient number"
+              ariaLabel="Filter Patient Number"></p-columnFilter>
+          </th>
+          <th>
+            Social Security Number
+            <p-columnFilter type="text" field="socialSecurityNumber" placeholder="Search by SSN"
+              ariaLabel="Filter SSN"></p-columnFilter>
+          </th>
+          <th>
+            Identity Card Number
+            <p-columnFilter type="text" field="identityCardNumber" placeholder="Search by ID card number"
+              ariaLabel="Filter ID Card"></p-columnFilter>
+          </th>
+          <th>
+            Phone Number
+            <p-columnFilter type="text" field="phoneNumber" placeholder="Search by phone number"
+              ariaLabel="Filter Phone Number"></p-columnFilter>
+          </th>
+          <th>Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-patient>
+        <tr>
+          <td>{{ patient.id }}</td>
+          <td>{{ patient.name }}</td>
+          <td>{{ patient.patientNumber }}</td>
+          <td>{{ patient.socialSecurityNumber }}</td>
+          <td>{{ patient.identityCardNumber }}</td>
+          <td>{{ patient.phoneNumber }}</td>
+          <td>
+            <button pButton type="button" icon="pi pi-pencil" class="p-button-warning p-button-sm"></button>
+            <button pButton type="button" icon="pi pi-trash" class="p-button-danger p-button-sm"
+              (click)="deleteById(patient.id)"></button>
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="7">No patients found.</td>
+        </tr>
+      </ng-template>
+    </p-table> -->
+
     <table class="table table-striped">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Patient Number</th>
-          <th>Social Security Number</th>
-          <th>Identity Card Number</th>
-          <th>Phone Number</th>
-          <th>Actions</th>
+          <th scope="col">ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Patient Number</th>
+          <th scope="col">Social Security Number</th>
+          <th scope="col">Identity Card Number</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -24,7 +89,7 @@
           <td>{{ patient.identityCardNumber }}</td>
           <td>{{ patient.phoneNumber }}</td>
           <td>
-            <button class="btn btn-warning btn-sm">Edit</button>
+            <button class="btn btn-warning btn-sm" >Edit</button>
             <button class="btn btn-danger btn-sm" (click)="deleteById(patient.id)">Delete</button>
           </td>
         </tr>
