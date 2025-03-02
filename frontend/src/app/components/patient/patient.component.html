@@ -1,8 +1,7 @@
 <div class="patient-container">
   <h1 class="title">Patients</h1>
   <div class="table-container">
-    <!-- <div *ngIf="!patients().length">Loading patients...</div> -->
-
+    
     <button
       class="btn btn-primary add-button"
       data-bs-toggle="modal"
@@ -79,11 +78,16 @@
           <td>{{ patient.identityCardNumber }}</td>
           <td>{{ patient.phoneNumber }}</td>
           <td>
-            <p-button
+            <!-- <p-button
               (click)="deleteById(patient.id)"
               label="Delete"
               icon="pi pi-trash"
-            />
+            /> -->
+            <button class="btn btn-danger btn-sm" (click)="deleteById(patient.id)">
+              
+              <i class="bi bi-trash"></i>
+              Delete
+            </button>
           </td>
         </tr>
       </ng-template>
