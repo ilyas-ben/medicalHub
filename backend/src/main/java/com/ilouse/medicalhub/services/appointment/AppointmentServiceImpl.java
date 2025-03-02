@@ -40,4 +40,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     public List<Appointment> findTodaysAppointments() {
         return appointmentRepo.findTodaysAppointments();
     }
+
+    @Override
+    public void changeStateById(Long id) {
+     appointmentRepo.changeStateById(id);
+    }
+
+
 }

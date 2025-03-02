@@ -40,5 +40,10 @@ public class AppointmentController {
         return appointmentService.findTodaysAppointments();
     }
 
+    @PostMapping("/changestate/{id}")
+    public void cancel(@PathVariable Long id){
+        appointmentService.changeStateById(id);
+    }
+
     // also if there s a conflict handler
 }

@@ -12,4 +12,7 @@ public interface AppointmentService {
     List<Appointment> saveAll(List<Appointment> appointments);
 
     public List<Appointment> findTodaysAppointments();
+
+
+    void changeStateById(Long id);
 }
