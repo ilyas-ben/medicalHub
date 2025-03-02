@@ -1,7 +1,10 @@
-import { ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
-import { Patient } from '../../model/patient.type';
 import { CommonModule } from '@angular/common';
-import { PatientService } from '../../services/patient/patient.service';
+import {
+  Component,
+  inject,
+  OnInit,
+  signal
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -9,19 +12,17 @@ import {
   Validators,
 } from '@angular/forms';
 import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { TagModule } from 'primeng/tag';
+import { Patient } from '../../model/patient.type';
+import { PatientService } from '../../services/patient/patient.service';
+import {   ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { SelectButtonModule } from 'primeng/selectbutton';
-
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
   selector: 'app-patient',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TableModule, TagModule, IconFieldModule, InputTextModule, InputIconModule, MultiSelectModule, SelectButtonModule, ButtonModule],
+  imports: [CommonModule, ReactiveFormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule],
   templateUrl: './patient.component.html',
   styleUrl: './patient.component.scss',
 })
@@ -31,7 +32,7 @@ export class PatientComponent implements OnInit {
 
   newPatientForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private cdr: ChangeDetectorRef) {
+  constructor(private fb: FormBuilder) {
     this.newPatientForm = this.fb.group({
       name: ['', Validators.required],
       patientNumber: ['', Validators.required],
@@ -49,7 +50,6 @@ export class PatientComponent implements OnInit {
     this.patientService.findAll().subscribe((items: Patient[]) => {
       this.patients.set(items);
       console.log(this.patients());
-      this.cdr.detectChanges();
     });
   }
 

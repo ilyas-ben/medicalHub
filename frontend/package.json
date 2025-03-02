@@ -18,12 +18,13 @@
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
+    "@ng-bootstrap/ng-bootstrap": "latest",
+    "@primeng/themes": "latest",
+    "primeicons": "latest",
+    "primeng": "latest",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.15.0",
-    "primeng": "latest",
-    "primeicons": "latest",
-    "@primeng/themes" : "latest"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.0.7",
