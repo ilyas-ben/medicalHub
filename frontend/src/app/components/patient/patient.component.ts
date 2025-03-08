@@ -69,6 +69,8 @@ export class PatientComponent implements OnInit {
     });
   }
 
+  /*  auto rename tag */
+
   deleteById(idPatientToDelete: number) {
     this.patientService.deleteByID(idPatientToDelete).subscribe(() => {
       this.setPatients();
