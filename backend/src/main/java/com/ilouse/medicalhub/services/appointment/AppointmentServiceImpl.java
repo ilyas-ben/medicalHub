@@ -13,7 +13,7 @@ import java.util.List;
 public class AppointmentServiceImpl implements AppointmentService {
 
     @Autowired
-    public AppointmentRepo appointmentRepo;
+    private AppointmentRepo appointmentRepo;
 
 
     @Override
@@ -45,6 +45,4 @@ public class AppointmentServiceImpl implements AppointmentService {
     public void changeStateById(Long id) {
      appointmentRepo.changeStateById(id);
     }
-
-
 }

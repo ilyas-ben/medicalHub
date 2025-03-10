@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  inject,
-  OnInit,
-  signal
-} from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,15 +9,31 @@ import {
 import { TableModule } from 'primeng/table';
 import { Patient } from '../../model/patient.type';
 import { PatientService } from '../../services/patient/patient.service';
-import {   ButtonModule } from 'primeng/button';
+import { ButtonModule } from 'primeng/button';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { Toast, ToastModule } from 'primeng/toast';
+import Swal from 'sweetalert2';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { Ripple } from 'primeng/ripple';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-patient',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, TableModule, ButtonModule, InputTextModule, IconFieldModule, InputIconModule],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TableModule,
+    ButtonModule,
+    InputTextModule,
+    IconFieldModule,
+    InputIconModule,
+    Toast,
+    ConfirmDialog         
+  ],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './patient.component.html',
   styleUrl: './patient.component.scss',
 })
@@ -32,7 +43,11 @@ export class PatientComponent implements OnInit {
 
   newPatientForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService
+  ) {
     this.newPatientForm = this.fb.group({
       name: ['', Validators.required],
       patientNumber: ['', Validators.required],
@@ -67,13 +82,27 @@ export class PatientComponent implements OnInit {
         }
       }
     });
+    // confirm save
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Done !',
+      detail: 'Patient added !',
+      life: 3000,
+    });
   }
 
-  /*  auto rename tag */
-
   deleteById(idPatientToDelete: number) {
-    this.patientService.deleteByID(idPatientToDelete).subscribe(() => {
-      this.setPatients();
-    });
+    Swal.fire({
+      icon: 'warning',
+      title: 'Warning !',
+      text: 'This patient has appointments, this action will delete the patient along with his appointments',
+      confirmButtonText: 'Delete',
+      showCancelButton: true,
+      showCloseButton: true,
+      customClass: {
+        confirmButton: 'btn btn-danger',
+        cancelButton: 'btn btn-primary'
+      }
+    })
   }
 }

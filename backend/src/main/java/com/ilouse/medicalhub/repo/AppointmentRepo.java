@@ -13,6 +13,8 @@ public interface AppointmentRepo extends JpaRepository<Appointment, Long>{
     @Query("SELECT a FROM Appointment a WHERE FUNCTION('DATE', a.dateTime) = CURRENT_DATE")
     List<Appointment> findTodaysAppointments();
 
+    boolean existsByPatientId(Long patientId);
+
     @Transactional
     @Modifying
     @Query("UPDATE Appointment a SET a.status = CASE WHEN a.status = TRUE THEN FALSE ELSE TRUE END WHERE a.id = :id")
