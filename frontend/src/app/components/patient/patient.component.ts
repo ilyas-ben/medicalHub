@@ -1,23 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { TableModule } from 'primeng/table';
-import { Patient } from '../../model/patient.type';
-import { PatientService } from '../../services/patient/patient.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
-import { Toast, ToastModule } from 'primeng/toast';
-import Swal from 'sweetalert2';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { Ripple } from 'primeng/ripple';
-import { ConfirmDialog } from 'primeng/confirmdialog';
+import { TableModule } from 'primeng/table';
+import { Toast } from 'primeng/toast';
+import { Patient } from '../../model/patient.type';
+import { PatientService } from '../../services/patient/patient.service';
+import { AppointmentsService } from '../../services/appointment/appointment.service';
 
 @Component({
   selector: 'app-patient',
@@ -31,7 +30,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     IconFieldModule,
     InputIconModule,
     Toast,
-    ConfirmDialog         
+    ConfirmDialog,
   ],
   providers: [ConfirmationService, MessageService],
   templateUrl: './patient.component.html',
@@ -39,16 +38,16 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 })
 export class PatientComponent implements OnInit {
   patients = signal<Array<Patient>>([]);
-  patientService = inject(PatientService);
 
   newPatientForm: FormGroup;
 
   constructor(
-    private fb: FormBuilder,
-    private messageService: MessageService,
-    private confirmationService: ConfirmationService
+    private readonly _fb: FormBuilder,
+    private readonly _messageService: MessageService,
+    private readonly _patientService: PatientService,
+    private readonly _appointmentService: AppointmentsService
   ) {
-    this.newPatientForm = this.fb.group({
+    this.newPatientForm = this._fb.group({
       name: ['', Validators.required],
       patientNumber: ['', Validators.required],
       socialSecurityNumber: ['', Validators.required],
@@ -62,14 +61,14 @@ export class PatientComponent implements OnInit {
   }
 
   setPatients(): void {
-    this.patientService.findAll().subscribe((items: Patient[]) => {
+    this._patientService.findAll().subscribe((items: Patient[]) => {
       this.patients.set(items);
       console.log(this.patients());
     });
   }
 
   save() {
-    this.patientService.save([this.newPatientForm.value]).subscribe(() => {
+    this._patientService.save([this.newPatientForm.value]).subscribe(() => {
       this.setPatients();
       this.newPatientForm.reset();
 
@@ -82,8 +81,9 @@ export class PatientComponent implements OnInit {
         }
       }
     });
+    
     // confirm save
-    this.messageService.add({
+    this._messageService.add({
       severity: 'success',
       summary: 'Done !',
       detail: 'Patient added !',
@@ -92,7 +92,7 @@ export class PatientComponent implements OnInit {
   }
 
   deleteById(idPatientToDelete: number) {
-    Swal.fire({
+    /* Swal.fire({
       icon: 'warning',
       title: 'Warning !',
       text: 'This patient has appointments, this action will delete the patient along with his appointments',
@@ -103,6 +103,10 @@ export class PatientComponent implements OnInit {
         confirmButton: 'btn btn-danger',
         cancelButton: 'btn btn-primary'
       }
-    })
+    }) */
+
+    this._patientService.deleteByID(idPatientToDelete).subscribe(() => {
+      this.setPatients();
+    });
   }
 }

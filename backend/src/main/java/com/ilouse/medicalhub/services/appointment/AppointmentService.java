@@ -13,6 +13,7 @@ public interface AppointmentService {
 
     public List<Appointment> findTodaysAppointments();
 
+    boolean existsByPatientId(Long patientId);
 
     void changeStateById(Long id);
 }

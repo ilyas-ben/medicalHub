@@ -42,6 +42,11 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    public boolean existsByPatientId(Long patientId) {
+        return appointmentRepo.existsByPatientId(patientId);
+    }
+
+    @Override
     public void changeStateById(Long id) {
      appointmentRepo.changeStateById(id);
     }

@@ -10,7 +10,7 @@ import { environment } from '../../../environments/environment';
 export class AppointmentsService {
   private url = `${environment.baseURL}/appointments`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private readonly http: HttpClient) {}
 
   findAll(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(this.url);

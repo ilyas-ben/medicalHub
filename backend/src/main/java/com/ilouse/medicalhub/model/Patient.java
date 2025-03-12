@@ -3,9 +3,7 @@ package com.ilouse.medicalhub.model;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import java.util.List;
 
 @Entity
 public class Patient {
@@ -28,6 +26,13 @@ public class Patient {
 
     @Column
     Integer phoneNumber;
+
+    @OneToMany(
+            mappedBy = "patient",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
+    private List<Appointment> appointments;
 
 
     public Patient() {
@@ -88,6 +93,14 @@ public class Patient {
 
     public void setIdentityCardNumber(String identityCardNumber) {
         this.identityCardNumber = identityCardNumber;
+    }
+
+    public List<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(List<Appointment> appointments) {
+        this.appointments = appointments;
     }
 
     @Override
