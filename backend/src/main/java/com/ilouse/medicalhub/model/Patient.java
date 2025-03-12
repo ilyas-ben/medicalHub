@@ -30,7 +30,6 @@ public class Patient {
     @OneToMany(
             mappedBy = "patient",
             cascade = CascadeType.ALL,
-            orphanRemoval = true,
             fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 
@@ -95,13 +94,6 @@ public class Patient {
         this.identityCardNumber = identityCardNumber;
     }
 
-    public List<Appointment> getAppointments() {
-        return appointments;
-    }
-
-    public void setAppointments(List<Appointment> appointments) {
-        this.appointments = appointments;
-    }
 
     @Override
     public String toString() {
