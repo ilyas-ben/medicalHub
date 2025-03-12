@@ -14,9 +14,10 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { Toast } from 'primeng/toast';
+import Swal from 'sweetalert2';
 import { Patient } from '../../model/patient.type';
-import { PatientService } from '../../services/patient/patient.service';
 import { AppointmentsService } from '../../services/appointment/appointment.service';
+import { PatientService } from '../../services/patient/patient.service';
 
 @Component({
   selector: 'app-patient',
@@ -81,7 +82,7 @@ export class PatientComponent implements OnInit {
         }
       }
     });
-    
+
     // confirm save
     this._messageService.add({
       severity: 'success',
@@ -92,21 +93,35 @@ export class PatientComponent implements OnInit {
   }
 
   deleteById(idPatientToDelete: number) {
-    /* Swal.fire({
-      icon: 'warning',
-      title: 'Warning !',
-      text: 'This patient has appointments, this action will delete the patient along with his appointments',
-      confirmButtonText: 'Delete',
-      showCancelButton: true,
-      showCloseButton: true,
-      customClass: {
-        confirmButton: 'btn btn-danger',
-        cancelButton: 'btn btn-primary'
-      }
-    }) */
-
-    this._patientService.deleteByID(idPatientToDelete).subscribe(() => {
-      this.setPatients();
-    });
+    this._appointmentService
+      .existsByPatientId(idPatientToDelete)
+      .subscribe((response: boolean) => {
+        if (response) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Warning !',
+            text: 'This patient has appointments, this action will delete the patient along with his appointments',
+            confirmButtonText: 'Delete',
+            showCancelButton: true,
+            showCloseButton: true,
+            customClass: {
+              confirmButton: 'btn btn-danger',
+              cancelButton: 'btn btn-primary',
+            },
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this._patientService
+                .deleteByID(idPatientToDelete)
+                .subscribe(() => {
+                  this.setPatients();
+                });
+            }
+          });
+        } else {
+          this._patientService.deleteByID(idPatientToDelete).subscribe(() => {
+            this.setPatients();
+          });
+        }
+      });
   }
 }

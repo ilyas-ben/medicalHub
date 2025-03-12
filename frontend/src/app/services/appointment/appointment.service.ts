@@ -31,4 +31,8 @@ export class AppointmentsService {
   findTodaysAppointments(): Observable<Appointment[]> {
     return this.http.get<Appointment[]>(`${this.url}/todaysAppointment`);
   }
+
+  existsByPatientId(id: number): Observable<boolean>{
+    return this.http.get<boolean>(`${this.url}/${id}/hasappoinments`);
+  }
 }
