@@ -1,20 +1,17 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { AppointmentsService } from '../../services/appointment/appointment.service';
-import { Appointment } from '../../model/appointment.type';
-import { CommonModule } from '@angular/common';
-import { PatientService } from '../../services/patient/patient.service';
-import { Patient } from '../../model/patient.type';
 import {
   FormBuilder,
   FormGroup,
-  ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
+import { Appointment } from '../../model/appointment.type';
+import { Patient } from '../../model/patient.type';
+import { AppointmentsService } from '../../services/appointment/appointment.service';
+import { PatientService } from '../../services/patient/patient.service';
 
 @Component({
   selector: 'app-appointments',
-  standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  standalone: false,
   templateUrl: './appointments.component.html',
   styleUrls: ['./appointments.component.scss'],
 })

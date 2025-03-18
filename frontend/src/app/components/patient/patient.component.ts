@@ -1,19 +1,6 @@
-import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { ConfirmationService, MessageService } from 'primeng/api';
-import { ButtonModule } from 'primeng/button';
-import { ConfirmDialog } from 'primeng/confirmdialog';
-import { IconFieldModule } from 'primeng/iconfield';
-import { InputIconModule } from 'primeng/inputicon';
-import { InputTextModule } from 'primeng/inputtext';
-import { TableModule } from 'primeng/table';
-import { Toast } from 'primeng/toast';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
 import { Patient } from '../../model/patient.type';
 import { AppointmentsService } from '../../services/appointment/appointment.service';
@@ -21,19 +8,7 @@ import { PatientService } from '../../services/patient/patient.service';
 
 @Component({
   selector: 'app-patient',
-  standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TableModule,
-    ButtonModule,
-    InputTextModule,
-    IconFieldModule,
-    InputIconModule,
-    Toast,
-    ConfirmDialog,
-  ],
-  providers: [ConfirmationService, MessageService],
+  standalone: false,
   templateUrl: './patient.component.html',
   styleUrl: './patient.component.scss',
 })
@@ -62,33 +37,49 @@ export class PatientComponent implements OnInit {
   }
 
   setPatients(): void {
-    this._patientService.findAll().subscribe((items: Patient[]) => {
-      this.patients.set(items);
-      console.log(this.patients());
+    this._patientService.findAll().subscribe({
+      next: (items: Patient[]) => {
+        this.patients.set(items);
+      },
+      error: () => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error !',
+          text: 'Sorry, couldnt fetch data from server, please try again later',
+        });
+      },
     });
   }
 
   save() {
-    this._patientService.save([this.newPatientForm.value]).subscribe(() => {
-      this.setPatients();
-      this.newPatientForm.reset();
+    this._patientService.save([this.newPatientForm.value]).subscribe({
+      next: () => {
+        this.setPatients();
+        this.newPatientForm.reset();
 
-      // Close the modal
-      const modalElement = document.getElementById('patientModal');
-      if (modalElement) {
-        const modalInstance = bootstrap.Modal.getInstance(modalElement);
-        if (modalInstance) {
-          modalInstance.hide();
+        const modalElement = document.getElementById('patientModal');
+        if (modalElement) {
+          const modalInstance = bootstrap.Modal.getInstance(modalElement);
+          if (modalInstance) {
+            modalInstance.hide();
+          }
         }
-      }
-    });
 
-    // confirm save
-    this._messageService.add({
-      severity: 'success',
-      summary: 'Done !',
-      detail: 'Patient added !',
-      life: 3000,
+        this._messageService.add({
+          severity: 'success',
+          summary: 'Done !',
+          detail: 'Patient added !',
+          life: 3000,
+        });
+      },
+      error: () => {
+        this._messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: "Your request couldn't be done, try again later",
+          life: 3000,
+        });
+      },
     });
   }
 

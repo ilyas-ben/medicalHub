@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { PatientComponent } from './components/patient/patient.component';
+import { AppointmentsComponent } from './components/appointment/appointments.component';
 
 export const routes: Routes = [
   {
@@ -7,21 +9,10 @@ export const routes: Routes = [
     pathMatch: 'full',
     component: DashboardComponent,
   },
-  {
-    path: 'patients',
-    loadComponent: async () => {
-      const vDeRetour = await import('./components/patient/patient.component');
-      return vDeRetour.PatientComponent;
-    },
-  },
+  { path: 'patients', component: PatientComponent },
   {
     path: 'appointments',
-    loadComponent: async () => {
-      const vDeRetour = await import(
-        './components/appointment/appointments.component'
-      );
-      return vDeRetour.AppointmentsComponent;
-    },
+    component: AppointmentsComponent,
   },
   {
     path: 'dashboard',
