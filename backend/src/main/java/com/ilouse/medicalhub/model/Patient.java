@@ -29,7 +29,7 @@ public class Patient {
 
     @OneToMany(
             mappedBy = "patient",
-            cascade = CascadeType.ALL,
+            cascade = CascadeType.MERGE,
             fetch = FetchType.LAZY)
     private List<Appointment> appointments;
 

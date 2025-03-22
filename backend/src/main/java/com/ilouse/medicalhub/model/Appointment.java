@@ -13,7 +13,7 @@ public class Appointment {
     private Long id;
 
     @JoinColumn
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Patient patient;
 
     @Column
