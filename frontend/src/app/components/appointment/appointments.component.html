@@ -1,69 +1,115 @@
 <div class="container mt-5">
-    <h2 class="mb-4">Appointments</h2>
-    <button class="btn btn-primary add-button" data-bs-toggle="modal" data-bs-target="#AppointmentModal">New
-        Appointment</button>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Patient Name</th>
-                <th scope="col">Date & Time</th>
-                <th scope="col">Status</th>
-                <th scope="col">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let appointment of appointments()"> 
-                <td>{{ appointment.id }}</td>
-                <td>{{ appointment.patient.name }}</td>
-                <td>{{ appointment.dateTime | date: 'short' }}</td>
-                <td>
-                    <span class="badge"
-                        [ngClass]="{'badge-success': appointment.status, 'badge-danger': !appointment.status}">
-                        {{ appointment.status ? 'Scheduled' : 'Canceled' }}
-                    </span>
-                </td>
-                <td>
-                    <button class="btn btn-danger btn-sm" (click)="deleteById(appointment.id)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+  <h1 class="d-flex justify-content-center">Appointments</h1>
+  <div class="table-container">
+    <p-toast />
+
+    <div class="d-flex justify-content-end">
+      <button
+        class="btn btn-primary add-button"
+        data-bs-toggle="modal"
+        data-bs-target="#appointmentModal"
+      >
+        New Appointment
+      </button>
+    </div>
+
+    <p-table
+      [value]="appointments()"
+      dataKey="id"
+      [rows]="10"
+      [paginator]="true"
+      [globalFilterFields]="[
+        'patientNumber',
+        'appointmentDate',
+        'appointmentTime'
+      ]"
+    >
+      <ng-template #header>
+        <tr>
+          <th pSortableColumn="patientNumber" style="width: 30%">
+            Patient Number <p-sortIcon field="patientNumber" />
+          </th>
+          <th pSortableColumn="appointmentDate" style="width: 30%">
+            Appointment Date <p-sortIcon field="appointmentDate" />
+          </th>
+
+          <th style="width: 10%">Actions</th>
+        </tr>
+      </ng-template>
+
+      <ng-template #body let-appointment>
+        <tr>
+          <td>{{ appointment.patient.name }}</td>
+          <td>{{ appointment.dateTime }}</td>
+          <td>
+            <p-button
+              icon="pi pi-trash"
+              [rounded]="true"
+              severity="danger"
+              (click)="deleteById(appointment.id)"
+              title="Delete this appointment"
+            />
+          </td>
+        </tr>
+      </ng-template>
+
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="4">No appointments found.</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </div>
 
 <!-- Modal for adding a new appointment -->
-<div class="modal fade" id="AppointmentModal" tabindex="-1" role="dialog" aria-labelledby="AppointmentModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="AppointmentModalLabel">Add New Appointment</h5>
-            </div>
-            <div class="modal-body">
-                <form [formGroup]="newAppointmentForm">
-                    <div class="form-group">
-                        <label for="patient">Patient</label>
-                        <select class="form-control" id="patient" formControlName="patientId">
-                            <option value="" disabled selected>Select Patient</option>
-                            <option *ngFor="let patient of patients()" [value]="patient.id">{{ patient.name }}</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="dateTime">Date & Time</label>
-                        <input type="datetime-local" class="form-control" id="dateTime" formControlName="dateTime">
-                    </div>
-                    <div class="form-group">
-                        <label for="status">Status</label>
-                        <select class="form-control" id="status" formControlName="status">
-                            <option [value]="true">Scheduled</option>
-                            <option [value]="false">Canceled</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" (click)="save()">Save Appointment</button>
-            </div>
-        </div>
+<div
+  class="modal fade"
+  id="appointmentModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="appointmentModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="appointmentModalLabel">
+          Add New Appointment
+        </h5>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="newAppointmentForm" (keydown.enter)="save()">
+          <div class="form-group">
+            <label for="patient">Patient</label>
+            <select
+              class="form-control"
+              id="patient"
+              formControlName="patientId"
+            >
+              <option value="" disabled selected>Select Patient</option>
+              <option *ngFor="let patient of patients()" [value]="patient.id">
+                {{ patient.name }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="dateTime">Appointment Date</label>
+            <p-datepicker
+              inputId="dateTime"
+              formControlName="dateTime"
+              [hourFormat]="'24'"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <p-button
+          label="Save Appointment"
+          (click)="save()"
+          [disabled]="newAppointmentForm.invalid"
+        />
+      </div>
     </div>
+  </div>
 </div>

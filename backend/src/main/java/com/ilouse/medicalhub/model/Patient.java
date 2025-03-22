@@ -10,22 +10,22 @@ public class Patient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String name;
+    private String name;
 
     @Column
-    String patientNumber;
+    private String patientNumber;
 
     @Column
-    String socialSecurityNumber;
+    private String socialSecurityNumber;
 
     @Column
-    String identityCardNumber;
+   private String identityCardNumber;
 
     @Column
-    Integer phoneNumber;
+    private Integer phoneNumber;
 
     @OneToMany(
             mappedBy = "patient",

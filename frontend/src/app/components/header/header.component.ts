@@ -1,11 +1,31 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-header',
-  standalone: true,
-  imports: [RouterModule],
+  standalone: false,
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  items = [
+    {
+      label: 'MedicalHub',
+      disabled: true, // Non-clickable
+    },
+    {
+      label: 'Dashboard',
+      icon: 'pi pi-home',
+      routerLink: '/dashboard',
+    },
+    {
+      label: 'Patients',
+      icon: 'pi pi-calendar',
+      routerLink: '/patients',
+    },
+    {
+      label: 'Appointments',
+      icon: 'pi pi-calendar',
+      routerLink: '/appointments',
+    },
+  ];
+}

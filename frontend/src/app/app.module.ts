@@ -4,25 +4,33 @@ import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, RouterOutlet } from '@angular/router';
+import { provideRouter, Router, RouterModule, RouterOutlet } from '@angular/router';
 import Aura from '@primeng/themes/aura';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { CalendarModule } from 'primeng/calendar';
 import { providePrimeNG } from 'primeng/config';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
+import { MenubarModule } from 'primeng/menubar';
 import { TableModule } from 'primeng/table';
 import { Toast } from 'primeng/toast';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { AppointmentsComponent } from './components/appointment/appointments.component';
-import { PatientComponent } from './components/patient/patient.component';
 import { HeaderComponent } from './components/header/header.component';
+import { PatientComponent } from './components/patient/patient.component';
+import { DatePickerModule } from 'primeng/datepicker';
 
 @NgModule({
-  declarations: [AppComponent, PatientComponent, AppointmentsComponent],
+  declarations: [
+    AppComponent,
+    PatientComponent,
+    AppointmentsComponent,
+    HeaderComponent,
+  ],
   imports: [
     BrowserModule,
     CommonModule,
@@ -35,7 +43,10 @@ import { HeaderComponent } from './components/header/header.component';
     Toast,
     ConfirmDialog,
     RouterOutlet,
-    HeaderComponent,
+    RouterModule.forRoot(routes),
+    CalendarModule,
+    MenubarModule,
+    DatePickerModule
   ],
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),

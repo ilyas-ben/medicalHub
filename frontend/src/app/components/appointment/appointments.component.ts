@@ -60,7 +60,7 @@ export class AppointmentsComponent implements OnInit {
       .subscribe(() => {
         this.setAppointments();
         this.newAppointmentForm.reset();
-
+        console.log(this.newAppointmentForm.value);
         // Close the modal
         const modalElement = document.getElementById('AppointmentModal');
         if (modalElement) {

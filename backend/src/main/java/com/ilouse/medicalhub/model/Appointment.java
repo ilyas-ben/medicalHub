@@ -10,17 +10,17 @@ import java.time.LocalDateTime;
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @JoinColumn
-    @ManyToOne
-    Patient patient;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Patient patient;
 
     @Column
-    LocalDateTime dateTime;
+    private LocalDateTime dateTime;
 
     @Column
-    Boolean status; // schedued ,  canceled
+    private Boolean status; // schedued ,  canceled
 
     public Appointment() {
     }

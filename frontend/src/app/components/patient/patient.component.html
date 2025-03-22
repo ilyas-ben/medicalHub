@@ -1,58 +1,23 @@
-<div class="patient-container">
-  <h1 class="title">Patients</h1>
+<div class="container mt-5">
+  <h1 class="d-flex justify-content-center">Patients</h1>
   <div class="table-container">
     <p-toast />
-    <p-confirmdialog #cd>
-      <ng-template
-        #headless
-        let-message
-        let-onAccept="onAccept"
-        let-onReject="onReject"
-      >
-        <div
-          class="flex flex-col items-center p-8 bg-surface-0 dark:bg-surface-900 rounded"
-        >
-          <div
-            class="rounded-full bg-primary text-primary-contrast inline-flex justify-center items-center h-24 w-24 -mt-20"
-          >
-            <i class="pi pi-question !text-5xl"></i>
-          </div>
-          <span class="font-bold text-2xl block mb-2 mt-6">{{
-            message.header
-          }}</span>
-          <p class="mb-0">{{ message.message }}</p>
-          <div class="flex items-center gap-2 mt-6">
-            <p-button
-              label="Save"
-              (onClick)="onAccept()"
-              styleClass="w-32"
-            ></p-button>
-            <p-button
-              label="Cancel"
-              [outlined]="true"
-              (onClick)="onReject()"
-              styleClass="w-32"
-            ></p-button>
-          </div>
-        </div>
-      </ng-template>
-    </p-confirmdialog>
 
-    <button
-      class="btn btn-primary add-button"
-      data-bs-toggle="modal"
-      data-bs-target="#patientModal"
-    >
-      New Patient
-    </button>
+    <div class="d-flex justify-content-end">
+      <button
+        class="btn btn-primary add-button"
+        data-bs-toggle="modal"
+        data-bs-target="#patientModal"
+      >
+        New Patient
+      </button>
+    </div>
 
     <p-table
-      #dt2
       [value]="patients()"
       dataKey="id"
       [rows]="10"
       [paginator]="true"
-      [rowsPerPageOptions]="[5, 10, 25]"
       [globalFilterFields]="[
         'name',
         'patientNumber',
@@ -61,30 +26,8 @@
         'phoneNumber'
       ]"
     >
-      <div class="flex">
-        <p-iconfield iconPosition="left" class="ml-auto">
-          <p-inputicon>
-            <i class="pi pi-search"></i>
-          </p-inputicon>
-          <input
-            pInputText
-            type="text"
-            (input)="dt2.filterGlobal($event.target, 'contains')"
-            placeholder="Search keyword"
-          />
-        </p-iconfield>
-      </div>
-
       <ng-template #header>
         <tr>
-          <th style="width: 10%">ID</th>
-
-          <!-- td>{{ patient.id }}</td>
-          <td>{{ patient.name }}</td>
-          <td>{{ patient.patientNumber }}</td>
-          <td>{{ patient.socialSecurityNumber }}</td>
-          <td>{{ patient.identityCardNumber }}</td>
-          <td>{{ patient.phoneNumber }}</td> -->
           <th pSortableColumn="name" style="width: 20%">
             Name <p-sortIcon field="name" />
           </th>
@@ -101,31 +44,25 @@
             Phone number <p-sortIcon field="phoneNumber" />
           </th>
 
-          <th>Actions</th>
+          <th></th>
         </tr>
       </ng-template>
 
       <ng-template #body let-patient>
         <tr>
-          <td>{{ patient.id }}</td>
           <td>{{ patient.name }}</td>
           <td>{{ patient.patientNumber }}</td>
           <td>{{ patient.socialSecurityNumber }}</td>
           <td>{{ patient.identityCardNumber }}</td>
           <td>{{ patient.phoneNumber }}</td>
           <td>
-            <!-- <p-button
-              (click)="deleteById(patient.id)"
-              label="Delete"
+            <p-button
               icon="pi pi-trash"
-            /> -->
-            <button
-              class="btn btn-danger btn-sm"
+              [rounded]="true"
+              severity="danger"
               (click)="deleteById(patient.id)"
-            >
-              <i class="bi bi-trash"></i>
-              Delete
-            </button>
+              title="Delete this patient"
+            />
           </td>
         </tr>
       </ng-template>
@@ -136,34 +73,6 @@
         </tr>
       </ng-template>
     </p-table>
-
-    <!-- <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Name</th>
-          <th scope="col">Patient Number</th>
-          <th scope="col">Social Security Number</th>
-          <th scope="col">Identity Card Number</th>
-          <th scope="col">Phone Number</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let patient of patients()">
-          <td>{{ patient.id }}</td>
-          <td>{{ patient.name }}</td>
-          <td>{{ patient.patientNumber }}</td>
-          <td>{{ patient.socialSecurityNumber }}</td>
-          <td>{{ patient.identityCardNumber }}</td>
-          <td>{{ patient.phoneNumber }}</td>
-          <td>
-            <button class="btn btn-warning btn-sm" >Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteById(patient.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table> -->
   </div>
 </div>
 
@@ -231,9 +140,11 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="save()">
-          Save Patient
-        </button>
+        <p-button
+          label="Save Patient"
+          (click)="save()"
+          [disabled]="newPatientForm.invalid"
+        />
       </div>
     </div>
   </div>
