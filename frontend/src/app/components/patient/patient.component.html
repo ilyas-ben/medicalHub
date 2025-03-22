@@ -2,15 +2,28 @@
   <h1 class="d-flex justify-content-center">Patients</h1>
   <div class="table-container">
     <p-toast />
-
+    <p-confirmdialog
+      header="Delete Patient"
+      icon="pi pi-exclamation-triangle"
+      [acceptLabel]="'Yes'"
+      [rejectLabel]="'No'"
+      [acceptIcon]="'pi pi-trash'"
+      [rejectIcon]="'pi pi-times'"
+      [acceptButtonStyleClass]="'p-button-danger'"
+      [rejectButtonStyleClass]="'p-button-secondary'"
+      [acceptVisible]="true"
+      [rejectVisible]="true"
+      [dismissableMask]="true"
+      [closeOnEscape]="true"
+    />
     <div class="d-flex justify-content-end">
-      <button
-        class="btn btn-primary add-button"
+      <p-button
+        label="New Patient"
+        severity="info"
         data-bs-toggle="modal"
         data-bs-target="#patientModal"
-      >
-        New Patient
-      </button>
+        icon="pi pi-plus"
+      />
     </div>
 
     <p-table
@@ -143,6 +156,8 @@
         <p-button
           label="Save Patient"
           (click)="save()"
+          [icon]="'pi pi-save'"
+          severity="info"
           [disabled]="newPatientForm.invalid"
         />
       </div>

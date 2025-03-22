@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import Swal from 'sweetalert2';
 import { Patient } from '../../model/patient.type';
 import { AppointmentsService } from '../../services/appointment/appointment.service';
@@ -21,7 +21,8 @@ export class PatientComponent implements OnInit {
     private readonly _fb: FormBuilder,
     private readonly _messageService: MessageService,
     private readonly _patientService: PatientService,
-    private readonly _appointmentService: AppointmentsService
+    private readonly _appointmentService: AppointmentsService,
+    private readonly _confirmationService: ConfirmationService
   ) {
     this.newPatientForm = this._fb.group({
       name: ['', Validators.required],
@@ -84,35 +85,42 @@ export class PatientComponent implements OnInit {
   }
 
   deleteById(idPatientToDelete: number) {
-    this._appointmentService
-      .existsByPatientId(idPatientToDelete)
-      .subscribe((response: boolean) => {
-        if (response) {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Warning !',
-            text: 'This patient has appointments, this action will delete the patient along with his appointments',
-            confirmButtonText: 'Delete',
-            showCancelButton: true,
-            showCloseButton: true,
-            customClass: {
-              confirmButton: 'btn btn-danger',
-              cancelButton: 'btn btn-primary',
-            },
-          }).then((result) => {
-            if (result.isConfirmed) {
-              this._patientService
-                .deleteByID(idPatientToDelete)
-                .subscribe(() => {
+    this._confirmationService.confirm({
+      message: 'Are you sure that you want to delete this patient ?',
+      accept: () => {
+        this._appointmentService
+          .existsByPatientId(idPatientToDelete)
+          .subscribe((response: boolean) => {
+            if (response) {
+              this._messageService.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'This patient has appointments, delete them first',
+                life: 3000,
+              });
+            } else {
+              this._patientService.deleteByID(idPatientToDelete).subscribe({
+                next: () => {
                   this.setPatients();
-                });
+                  this._messageService.add({
+                    severity: 'success',
+                    summary: 'Done !',
+                    detail: 'Patient deleted !',
+                    life: 3000,
+                  });
+                },
+                error: () => {
+                  this._messageService.add({
+                    severity: 'error',
+                    summary: 'Error',
+                    detail: "Your request couldn't be done, try again later",
+                    life: 3000,
+                  });
+                },
+              });
             }
           });
-        } else {
-          this._patientService.deleteByID(idPatientToDelete).subscribe(() => {
-            this.setPatients();
-          });
-        }
-      });
+      },
+    });
   }
 }

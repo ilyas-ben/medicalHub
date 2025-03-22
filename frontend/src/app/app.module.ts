@@ -4,13 +4,14 @@ import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideRouter, Router, RouterModule, RouterOutlet } from '@angular/router';
+import { provideRouter, RouterModule, RouterOutlet } from '@angular/router';
 import Aura from '@primeng/themes/aura';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { providePrimeNG } from 'primeng/config';
-import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DatePickerModule } from 'primeng/datepicker';
 import { IconFieldModule } from 'primeng/iconfield';
 import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
@@ -22,7 +23,6 @@ import { routes } from './app.routes';
 import { AppointmentsComponent } from './components/appointment/appointments.component';
 import { HeaderComponent } from './components/header/header.component';
 import { PatientComponent } from './components/patient/patient.component';
-import { DatePickerModule } from 'primeng/datepicker';
 
 @NgModule({
   declarations: [
@@ -41,12 +41,12 @@ import { DatePickerModule } from 'primeng/datepicker';
     IconFieldModule,
     InputIconModule,
     Toast,
-    ConfirmDialog,
+    ConfirmDialogModule,
     RouterOutlet,
     RouterModule.forRoot(routes),
     CalendarModule,
     MenubarModule,
-    DatePickerModule
+    DatePickerModule,
   ],
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),

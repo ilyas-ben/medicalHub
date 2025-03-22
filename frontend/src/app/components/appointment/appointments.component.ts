@@ -1,13 +1,10 @@
 import { Component, OnInit, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Appointment } from '../../model/appointment.type';
 import { Patient } from '../../model/patient.type';
 import { AppointmentsService } from '../../services/appointment/appointment.service';
 import { PatientService } from '../../services/patient/patient.service';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-appointments',
@@ -21,11 +18,13 @@ export class AppointmentsComponent implements OnInit {
   newAppointmentForm: FormGroup;
 
   constructor(
-    private readonly appointmentsService: AppointmentsService,
-    private readonly fb: FormBuilder,
-    private readonly patientService: PatientService
+    private readonly _appointmentsService: AppointmentsService,
+    private readonly _fb: FormBuilder,
+    private readonly _patientService: PatientService,
+    private readonly _confirmationService: ConfirmationService,
+    private readonly _messageService: MessageService
   ) {
-    this.newAppointmentForm = this.fb.group({
+    this.newAppointmentForm = this._fb.group({
       patientId: ['', Validators.required],
       dateTime: ['', Validators.required],
       status: [true, Validators.required],
@@ -38,13 +37,13 @@ export class AppointmentsComponent implements OnInit {
   }
 
   setAppointments(): void {
-    this.appointmentsService.findAll().subscribe((items: Appointment[]) => {
+    this._appointmentsService.findAll().subscribe((items: Appointment[]) => {
       this.appointments.set(items);
     });
   }
 
   setPatients(): void {
-    this.patientService.findAll().subscribe((items: Patient[]) => {
+    this._patientService.findAll().subscribe((items: Patient[]) => {
       this.patients.set(items);
     });
   }
@@ -55,12 +54,12 @@ export class AppointmentsComponent implements OnInit {
       id: this.newAppointmentForm.value.patientId,
     } as Patient;
     // save to backend
-    this.appointmentsService
+    this._appointmentsService
       .save([{ ...this.newAppointmentForm.value }])
       .subscribe(() => {
         this.setAppointments();
         this.newAppointmentForm.reset();
-        console.log(this.newAppointmentForm.value);
+
         // Close the modal
         const modalElement = document.getElementById('AppointmentModal');
         if (modalElement) {
@@ -69,14 +68,34 @@ export class AppointmentsComponent implements OnInit {
             modalInstance.hide();
           }
         }
+        // Show success message
+        this._messageService.add({
+          severity: 'success',
+          summary: 'Done !',
+          detail: 'Appointment scheduled !',
+          life: 3000,
+        });
       });
 
     console.log(newAppointment);
   }
 
   deleteById(idAppointmentToDelete: number): void {
-    this.appointmentsService.deleteByID(idAppointmentToDelete).subscribe(() => {
-      this.setAppointments();
+    this._confirmationService.confirm({
+      message: 'Are you sure that you want to delete this appointment?',
+      accept: () => {
+        this._appointmentsService
+          .deleteByID(idAppointmentToDelete)
+          .subscribe(() => {
+            this.setAppointments();
+            this._messageService.add({
+              severity: 'success',
+              summary: 'Done !',
+              detail: 'Appointment deleted !',
+              life: 3000,
+            });
+          });
+      },
     });
   }
 }
