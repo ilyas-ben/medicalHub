@@ -73,14 +73,7 @@ export class PatientComponent implements OnInit {
           life: 3000,
         });
       },
-      error: () => {
-        this._messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: "Your request couldn't be done, try again later",
-          life: 3000,
-        });
-      },
+      
     });
   }
 
